@@ -1,18 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>2048 Multiplayer</title>
+  <meta charset="UTF-8">
+  <title>2048 Multiplayer</title>
 </head>
 <body>
-	<h1>2048 Multiplayer</h1>
-	<!-- <script src="/socket.io/socket.io.js"></script>
-<script>
-  var socket = io.connect('http://localhost');
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
-  });
-</script> -->
+  <h1>2048 Multiplayer</h1>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect('http://localhost');
+    socket.on('news', function (data) {
+      console.log(data);
+      socket.emit('my other event', { my: 'data' });
+    });
+  </script>
 </body>
 </html>
