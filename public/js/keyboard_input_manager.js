@@ -12,6 +12,14 @@ KeyboardInputManager.prototype.on = function (event, callback) {
 };
 
 KeyboardInputManager.prototype.emit = function (event, data) {
+  // Capture move events
+  if (event === 'move') {
+    Multiplayer.move({
+      event: event,
+      data: data
+    });
+  }
+
   var callbacks = this.events[event];
   if (callbacks) {
     callbacks.forEach(function (callback) {
@@ -61,7 +69,7 @@ KeyboardInputManager.prototype.listen = function () {
     drag_block_horizontal: true,
     drag_block_vertical: true
   });
-  
+
   handler.on("swipe", function (event) {
     event.gesture.preventDefault();
     mapped = gestures.indexOf(event.gesture.direction);
