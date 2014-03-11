@@ -25,3 +25,7 @@ heroku labs:enable websockets
 git push heroku master
 heroku open
 ```
+
+## TODO
+- Right now the multiplayer version just sends messages of what moves are pressed to every online user. We want to make this more like "Twitch plays pokemon" so we need to have the server have the state of the game and then have users change that state.
+  - Basically move the game to server side
