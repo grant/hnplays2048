@@ -1,3 +1,3 @@
 window.requestAnimationFrame(function () {
-  var manager = new GameManager(4, KeyboardInputManager, HTMLActuator);
+  window.manager = new GameManager(4, KeyboardInputManager, HTMLActuator);
 });

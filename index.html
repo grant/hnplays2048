@@ -71,14 +71,16 @@
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io.connect();
-    socket.on('news', function (data) {
+    socket.on('move', function (data) {
       console.log(data);
-      socket.emit('my other event', { my: 'data' });
+      manager.move(data, true);
+      // window.emit(data.event, data.data, true);
+      // socket.emit('my other event', { my: 'data' });
     });
 
     var Multiplayer = {
-      move: function (message) {
-        socket.emit('move');
+      move: function (direction) {
+        socket.emit('move', direction);
       },
       restart: function (message) {
 

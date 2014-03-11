@@ -76,11 +76,16 @@ GameManager.prototype.moveTile = function (tile, cell) {
 };
 
 // Move tiles on the grid in the specified direction
-GameManager.prototype.move = function (direction) {
+GameManager.prototype.move = function (direction, dontbroadcast) {
   // 0: up, 1: right, 2:down, 3: left
   var self = this;
 
   if (this.over || this.won) return; // Don't do anything if the game's over
+
+  // Multiplayer
+  if (!dontbroadcast) {
+    Multiplayer.move(direction);
+  }
 
   var cell, tile;
 

@@ -12,14 +12,6 @@ KeyboardInputManager.prototype.on = function (event, callback) {
 };
 
 KeyboardInputManager.prototype.emit = function (event, data) {
-  // Capture move events
-  if (event === 'move') {
-    Multiplayer.move({
-      event: event,
-      data: data
-    });
-  }
-
   var callbacks = this.events[event];
   if (callbacks) {
     callbacks.forEach(function (callback) {
