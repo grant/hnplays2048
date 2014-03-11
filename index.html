@@ -61,9 +61,12 @@
     <p class="game-explanation">
       <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
     </p>
+    <p class="game-explanation">
+      However, this is HN plays 2048, which means anybody who is online can move your pieces!
+    </p>
     <hr>
     <p>
-      Created by <a href="http://gabrielecirulli.com" target="_blank">Gabriele Cirulli.</a> Based on <a href="https://itunes.apple.com/us/app/1024!/id823499224" target="_blank">1024 by Veewo Studio.</a>
+      Multiplayer by <a href="http://granttimmerman.com">Grant Timmerman.</a> Created by <a href="http://gabrielecirulli.com" target="_blank">Gabriele Cirulli.</a> Based on <a href="https://itunes.apple.com/us/app/1024!/id823499224" target="_blank">1024 by Veewo Studio.</a>
     </p>
   </div>
 
@@ -72,18 +75,12 @@
   <script>
     var socket = io.connect();
     socket.on('move', function (data) {
-      console.log(data);
       manager.move(data, true);
-      // window.emit(data.event, data.data, true);
-      // socket.emit('my other event', { my: 'data' });
     });
 
     var Multiplayer = {
       move: function (direction) {
         socket.emit('move', direction);
-      },
-      restart: function (message) {
-
       }
     };
   </script>
