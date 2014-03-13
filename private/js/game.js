@@ -34,6 +34,16 @@ module.exports = {
         callback();
       }, 4000);
     }
+  },
+
+  // Gets all scores (could be a lot)
+  getScores: function () {
+    return scores;
+  },
+
+  // Gets the top few scores
+  getHighscores: function () {
+    return scores.slice(0, 20);
   }
 };
 

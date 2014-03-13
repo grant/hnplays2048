@@ -20,7 +20,9 @@ console.log("Listening at port: " + port);
 
 // Routes
 app.get('/api', function (req, res) {
-  res.send(game.getGameData());
+  var data = game.getGameData();
+  data.highscores = game.getScores();
+  res.send(data);
 });
 app.get('*', function (req, res) {
   res.sendfile(__dirname + '/index.html');
@@ -38,7 +40,8 @@ io.sockets.on('connection', function (socket) {
   var gameData = game.getGameData();
   var data = {
     userId: socket.userId,
-    gameData: gameData
+    gameData: gameData,
+    highscores: game.getHighscores()
   };
   socket.emit('connected', data);
 
@@ -59,7 +62,9 @@ io.sockets.on('connection', function (socket) {
     // Reset the game if it is game over or won
     if (gameData.over || gameData.won) {
       game.restart(function () {
-        io.sockets.emit('restart', game.getGameData());
+        var data = game.getGameData();
+        data.highscores = game.getHighscores();
+        io.sockets.emit('restart', data);
       });
     }
   });
