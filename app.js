@@ -41,6 +41,6 @@ io.sockets.on('connection', function (socket) {
       userId: socket.userId,
       gameData: game.getGameData()
     };
-    socket.broadcast.emit('move', data);
+    io.sockets.emit('move', data);
   });
 });

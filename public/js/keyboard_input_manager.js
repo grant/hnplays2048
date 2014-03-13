@@ -13,10 +13,17 @@ KeyboardInputManager.prototype.on = function (event, callback) {
 
 KeyboardInputManager.prototype.emit = function (event, data) {
   var callbacks = this.events[event];
-  if (callbacks) {
-    callbacks.forEach(function (callback) {
-      callback(data);
-    });
+
+  // Don't call callbacks, instead capture and send for multiplayer
+
+  // if (callbacks) {
+  //   callbacks.forEach(function (callback) {
+  //     callback(data);
+  //   });
+  // }
+
+  if (Multiplayer[event]) {
+    Multiplayer[event](data);
   }
 };
 

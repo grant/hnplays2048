@@ -75,7 +75,8 @@
   <script>
     var socket = io.connect();
     socket.on('move', function (data) {
-      manager.move(data, true);
+      // manager.move(data, true);
+      console.log(data);
     });
 
     var Multiplayer = {
