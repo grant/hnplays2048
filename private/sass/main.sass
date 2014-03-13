@@ -1,6 +1,7 @@
 @import helpers
 @import fonts/clear-sans.css
 
+$column-width: 200px
 $field-width: 500px
 $grid-spacing: 15px
 $grid-row-cells: 4
@@ -108,8 +109,17 @@ hr
   margin-bottom: 30px
 
 .container
-  width: $field-width
+  width: $field-width + 2 * $column-width
   margin: 0 auto
+
+  > div
+    float: left
+
+  .game
+    width: $field-width
+
+  .highscores, .userInputs
+    width: $column-width
 
 +keyframes(fade-in)
   0%

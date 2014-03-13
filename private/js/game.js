@@ -3,7 +3,7 @@
 // Requires
 var GameManager = require('./game_manager');
 
-var gameManager = new GameManager(2);
+var gameManager = new GameManager(4);
 var scores = []; // Array of objects which include {date, score}. In sorted descending order
 var isRestarting = false;
 
