@@ -65,7 +65,12 @@ function setHighscores (highscores) {
   for (var i = 0; i < highscores.length; ++i) {
     var hsElement = document.createElement('li');
     var hs = highscores[i];
-    hsElement.innerHTML = '<strong class="score">' + hs.score + '</strong>' + prettyDate(new Date(hs.date));
+    var hsString = '<strong class="score">' + hs.score + '</strong>' + prettyDate(new Date(hs.date));
+    if (hs.won) {
+      hsElement.innerHTML = '<span class="won">' + hsString + '</span>';
+    } else {
+      hsElement.innerHTML = hsString;
+    }
     highscoreList.appendChild(hsElement);
   }
 }

@@ -23,10 +23,12 @@ module.exports = {
   // Resets the game
   restart: function (callback) {
     // Add score once
-    var score = gameManager.getGameData().score;
+    var gameData = gameManager.getGameData();
+    var score = gameData.score;
+    var won = gameData.won;
     if (!isRestarting) {
       isRestarting = true;
-      addScore(score);
+      addScore(score, won);
       // Restart the game after a short duration
       setTimeout(function () {
         isRestarting = false;
@@ -48,10 +50,11 @@ module.exports = {
 };
 
 // Add a score to the high score list
-function addScore (score) {
+function addScore (score, won) {
   scores.push({
     date: new Date(),
-    score: score
+    score: score,
+    won: won
   });
 
   // Keep scores sorted
