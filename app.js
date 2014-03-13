@@ -19,6 +19,9 @@ server.listen(port);
 console.log("Listening at port: " + port);
 
 // Routes
+app.get('/api', function (req, res) {
+  res.send(game.getGameData());
+});
 app.get('*', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
