@@ -74,6 +74,11 @@
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io.connect();
+    socket.on('connected', function (data) {
+      var gameData = data.gameData;
+      manager.setGameData(gameData);
+    });
+
     socket.on('move', function (data) {
       // manager.move(data, true);
       // var direction = data.direction;
@@ -83,6 +88,7 @@
     });
 
     socket.on('reset', function (gameData) {
+      manager.reset();
       manager.setGameData(gameData);
     });
 

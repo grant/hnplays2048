@@ -30,7 +30,16 @@ var game = require('./private/js/game');
 
 io.sockets.on('connection', function (socket) {
   socket.userId = ++nextUserId;
-  // socket.emit('connected', { hello: 'world' });
+
+  // When connecting
+  var gameData = game.getGameData();
+  var data = {
+    userId: socket.userId,
+    gameData: gameData
+  };
+  socket.emit('connected', data);
+
+  // When someone moves
   socket.on('move', function (direction) {
     // update the game
     game.move(direction);
