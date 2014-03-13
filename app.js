@@ -53,8 +53,8 @@ io.sockets.on('connection', function (socket) {
     };
     io.sockets.emit('move', data);
 
-    // Reset the game if it is game over
-    if (gameData.over) {
+    // Reset the game if it is game over or won
+    if (gameData.over || gameData.won) {
       game.restart(function () {
         io.sockets.emit('restart', game.getGameData());
       });
