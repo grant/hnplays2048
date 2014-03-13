@@ -23,7 +23,8 @@ app.get('/api', function (req, res) {
   var data = game.getGameData();
   data.highscores = game.getScores();
   data.moveCount = moveCount;
-  data.numUsers = io.sockets.clients().length;
+  data.numUsers = io.sockets.clients().length; // Online users
+  data.totalNumUsers = nextUserId; // Visitor count
   res.send(data);
 });
 app.get('*', function (req, res) {
@@ -44,9 +45,13 @@ io.sockets.on('connection', function (socket) {
   var data = {
     userId: socket.userId,
     gameData: gameData,
+    numUsers: io.sockets.clients().length,
     highscores: game.getHighscores()
   };
   socket.emit('connected', data);
+  socket.broadcast.emit('someone connected', {
+    numUsers: io.sockets.clients().length
+  });
 
   // When someone moves
   socket.on('move', function (direction) {
@@ -59,6 +64,7 @@ io.sockets.on('connection', function (socket) {
     var data = {
       direction: direction,
       userId: socket.userId,
+      numUsers: io.sockets.clients().length,
       gameData: gameData
     };
     io.sockets.emit('move', data);
@@ -71,5 +77,11 @@ io.sockets.on('connection', function (socket) {
         io.sockets.emit('restart', data);
       });
     }
+  });
+
+  socket.on('disconnect', function () {
+    io.sockets.emit('count', {
+      numUsers: io.sockets.clients().length,
+    });
   });
 });

@@ -1,5 +1,7 @@
 var moveList = document.getElementsByClassName("inputlist")[0];
 var highscoreList = document.getElementsByClassName("scorelist")[0];
+var userCount = document.getElementsByClassName("numUsers")[0];
+var userString = document.getElementsByClassName("userString")[0];
 var arrows = ['▲', '▶', '▼', '◀'];
 var MOVE_LIST_CUTOFF = 20;
 
@@ -9,7 +11,12 @@ socket.on('connected', function (data) {
   var gameData = data.gameData;
   var highscores = data.highscores;
   setHighscores(highscores);
+  updateUserCount(data);
   manager.setGameData(gameData);
+});
+
+socket.on('someone connected', function (data) {
+  updateUserCount(data);
 });
 
 socket.on('move', function (data) {
@@ -28,8 +35,11 @@ socket.on('move', function (data) {
     }
   }
 
-  // Set the game state
-  if (!manager.over) {
+  // Update number of users
+  updateUserCount(data);
+
+  // Set the game state (if we're not in a pause state)
+  if (!(manager.won || manager.over)) {
     var gameData = data.gameData;
     manager.setGameData(gameData);
   }
@@ -42,6 +52,10 @@ socket.on('restart', function (gameData) {
   manager.setGameData(gameData);
 });
 
+socket.on('disconnect', function (data) {
+  updateUserCount(data);
+});
+
 // Sets the visual high score list
 function setHighscores (highscores) {
   // Remove all scores
@@ -51,11 +65,16 @@ function setHighscores (highscores) {
   for (var i = 0; i < highscores.length; ++i) {
     var hsElement = document.createElement('li');
     var hs = highscores[i];
-    console.log(hs);
-    console.log(hs.date);
     hsElement.innerHTML = '<strong class="score">' + hs.score + '</strong>' + prettyDate(new Date(hs.date));
     highscoreList.appendChild(hsElement);
   }
+}
+
+// Update the user count
+function updateUserCount (data) {
+  var numUsers = data.numUsers;
+  userCount.innerHTML = numUsers;
+  userString.innerHTML = numUsers === 1 ? 'user' : 'users';
 }
 
 //// Pretty date adapted from https://github.com/netcode/node-prettydate
