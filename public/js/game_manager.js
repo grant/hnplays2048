@@ -76,16 +76,11 @@ GameManager.prototype.moveTile = function (tile, cell) {
 };
 
 // Move tiles on the grid in the specified direction
-GameManager.prototype.move = function (direction, dontbroadcast) {
+GameManager.prototype.move = function (direction) {
   // 0: up, 1: right, 2:down, 3: left
   var self = this;
 
   if (this.over || this.won) return; // Don't do anything if the game's over
-
-  // Multiplayer
-  if (!dontbroadcast) {
-    Multiplayer.move(direction);
-  }
 
   var cell, tile;
 
@@ -225,4 +220,14 @@ GameManager.prototype.tileMatchesAvailable = function () {
 
 GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x && first.y === second.y;
+};
+
+GameManager.prototype.setGameData = function (data) {
+  // this.move(data);
+  console.log(data);
+  this.actuator.actuate(data.grid, {
+    score: data.score,
+    over: data.over,
+    won: data.won
+  });
 };

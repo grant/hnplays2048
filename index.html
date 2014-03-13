@@ -76,7 +76,10 @@
     var socket = io.connect();
     socket.on('move', function (data) {
       // manager.move(data, true);
-      console.log(data);
+      var direction = data.direction;
+      var userId = data.userId;
+      var gameData = data.gameData;
+      manager.setGameData(gameData);
     });
 
     var Multiplayer = {
