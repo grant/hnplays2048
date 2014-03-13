@@ -4,7 +4,7 @@
 var GameManager = require('./game_manager');
 
 var gameManager = new GameManager(4);
-var isResetting = false;
+var isRestarting = false;
 
 // External API
 module.exports = {
@@ -20,12 +20,12 @@ module.exports = {
   },
 
   // Resets the game
-  reset: function (callback) {
-    if (!isResetting) {
-      isResetting = true;
-      // Reset the game after a short duration
+  restart: function (callback) {
+    if (!isRestarting) {
+      isRestarting = true;
+      // Restart the game after a short duration
       setTimeout(function () {
-        isResetting = false;
+        isRestarting = false;
         gameManager.restart();
         callback();
       }, 4000);

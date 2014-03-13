@@ -55,8 +55,8 @@ io.sockets.on('connection', function (socket) {
 
     // Reset the game if it is game over
     if (gameData.over) {
-      game.reset(function () {
-        io.sockets.emit('reset', game.getGameData());
+      game.restart(function () {
+        io.sockets.emit('restart', game.getGameData());
       });
     }
   });

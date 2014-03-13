@@ -206,9 +206,10 @@ GameManager.prototype.positionsEqual = function (first, second) {
 };
 
 GameManager.prototype.setGameData = function (data) {
-  this.actuator.actuate(data.grid, {
-    score: data.score,
-    over: data.over,
-    won: data.won
-  });
+  this.grid = data.grid;
+  this.won = data.won;
+  this.over = data.over;
+  this.score = data.score;
+
+  this.actuate();
 };

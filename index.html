@@ -22,7 +22,7 @@
       <div class="game-message">
         <p></p>
         <div class="lower">
-          <a class="retry-button">Try again</a>
+          <a class="retry-button">Good job!</a>
         </div>
       </div>
 
@@ -72,32 +72,7 @@
 
   <!-- Socket.io -->
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket = io.connect();
-    socket.on('connected', function (data) {
-      var gameData = data.gameData;
-      manager.setGameData(gameData);
-    });
-
-    socket.on('move', function (data) {
-      // manager.move(data, true);
-      // var direction = data.direction;
-      // var userId = data.userId;
-      var gameData = data.gameData;
-      manager.setGameData(gameData);
-    });
-
-    socket.on('reset', function (gameData) {
-      manager.reset();
-      manager.setGameData(gameData);
-    });
-
-    var Multiplayer = {
-      move: function (direction) {
-        socket.emit('move', direction);
-      }
-    };
-  </script>
+  <script src="/js/multiplayer.js"></script>
 
   <script src="js/hammer.min.js"></script>
   <script src="js/keyboard_input_manager.js"></script>
