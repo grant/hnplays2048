@@ -223,8 +223,6 @@ GameManager.prototype.positionsEqual = function (first, second) {
 };
 
 GameManager.prototype.setGameData = function (data) {
-  // this.move(data);
-  console.log(data);
   this.actuator.actuate(data.grid, {
     score: data.score,
     over: data.over,

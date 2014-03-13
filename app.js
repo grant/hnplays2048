@@ -36,11 +36,19 @@ io.sockets.on('connection', function (socket) {
     game.move(direction);
 
     // Send the move with the game state
+    var gameData = game.getGameData();
     var data = {
       direction: direction,
       userId: socket.userId,
-      gameData: game.getGameData()
+      gameData: gameData
     };
     io.sockets.emit('move', data);
+
+    // Reset the game if it is game over
+    if (gameData.over) {
+      game.reset(function () {
+        io.sockets.emit('reset', game.getGameData());
+      });
+    }
   });
 });

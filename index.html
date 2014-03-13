@@ -76,9 +76,13 @@
     var socket = io.connect();
     socket.on('move', function (data) {
       // manager.move(data, true);
-      var direction = data.direction;
-      var userId = data.userId;
+      // var direction = data.direction;
+      // var userId = data.userId;
       var gameData = data.gameData;
+      manager.setGameData(gameData);
+    });
+
+    socket.on('reset', function (gameData) {
       manager.setGameData(gameData);
     });
 
