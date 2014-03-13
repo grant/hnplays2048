@@ -30,6 +30,10 @@ html, body
 body
   margin: 80px 0
 
+ul, ol
+  list-style-type: none
+  padding: 0
+
 .heading:after
   content: ""
   display: block
@@ -120,6 +124,32 @@ hr
 
   .highscores, .userInputs
     width: $column-width
+
+.userInputs
+  text-align: center
+
+  li
+    margin-bottom: 10px
+  // .title
+  .move
+    display: inline-block
+    width: 20px
+    height: 20px
+
+    font-size: 20px
+    color: $bright-text-color
+
+    margin-right: 5px
+    padding: 5px
+    border-radius: 5px
+  .move-0
+    background-color: #edcf72
+  .move-1
+    background-color: #f2b179
+  .move-2
+    background-color: #ede0c8
+  .move-3
+    background-color: #f67c5f
 
 +keyframes(fade-in)
   0%
