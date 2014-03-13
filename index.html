@@ -12,62 +12,69 @@
 </head>
 <body>
   <div class="container">
-    <div class="heading">
-      <h1 class="title">HN Plays 2048</h1>
-      <div class="score-container">0</div>
+    <div class="highscores">
+      <ul class="scorelist"></ul>
     </div>
-    <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
+    <div class="game">
+      <div class="heading">
+        <h1 class="title">HN Plays 2048</h1>
+        <div class="score-container">0</div>
+      </div>
+      <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
 
-    <div class="game-container">
-      <div class="game-message">
-        <p></p>
-        <div class="lower">
-          <a class="retry-button">Good job!</a>
+      <div class="game-container">
+        <div class="game-message">
+          <p></p>
+          <div class="lower">
+            <a class="retry-button">Good job!</a>
+          </div>
+        </div>
+
+        <div class="grid-container">
+          <div class="grid-row">
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+          </div>
+          <div class="grid-row">
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+          </div>
+          <div class="grid-row">
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+          </div>
+          <div class="grid-row">
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+            <div class="grid-cell"></div>
+          </div>
+        </div>
+
+        <div class="tile-container">
+
         </div>
       </div>
-
-      <div class="grid-container">
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-      </div>
-
-      <div class="tile-container">
-
-      </div>
+      <p class="game-explanation">
+        <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
+      </p>
+      <p class="game-explanation">
+        However, this is HN plays 2048, which means anybody who is online can move your pieces!
+      </p>
+      <hr>
+      <p>
+        Multiplayer by <a href="http://granttimmerman.com">Grant Timmerman.</a> Created by <a href="http://gabrielecirulli.com" target="_blank">Gabriele Cirulli.</a> Based on <a href="https://itunes.apple.com/us/app/1024!/id823499224" target="_blank">1024 by Veewo Studio.</a>
+      </p>
     </div>
-
-    <p class="game-explanation">
-      <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
-    </p>
-    <p class="game-explanation">
-      However, this is HN plays 2048, which means anybody who is online can move your pieces!
-    </p>
-    <hr>
-    <p>
-      Multiplayer by <a href="http://granttimmerman.com">Grant Timmerman.</a> Created by <a href="http://gabrielecirulli.com" target="_blank">Gabriele Cirulli.</a> Based on <a href="https://itunes.apple.com/us/app/1024!/id823499224" target="_blank">1024 by Veewo Studio.</a>
-    </p>
+    <div class="userInputs">
+      <ul class="inputlist"></ul>
+    </div>
   </div>
 
   <!-- Socket.io -->
