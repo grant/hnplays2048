@@ -3,7 +3,8 @@
 // Requires
 var GameManager = require('./game_manager');
 
-var gameManager = new GameManager(4);
+var gameManager = new GameManager(2);
+var scores = []; // Array of objects which include {date, score}. In sorted descending order
 var isRestarting = false;
 
 // External API
@@ -21,8 +22,11 @@ module.exports = {
 
   // Resets the game
   restart: function (callback) {
+    // Add score once
+    var score = gameManager.getGameData().score;
     if (!isRestarting) {
       isRestarting = true;
+      addScore(score);
       // Restart the game after a short duration
       setTimeout(function () {
         isRestarting = false;
@@ -32,3 +36,16 @@ module.exports = {
     }
   }
 };
+
+// Add a score to the high score list
+function addScore (score) {
+  scores.push({
+    date: new Date(),
+    score: score
+  });
+
+  // Keep scores sorted
+  scores.sort(function (a, b) {
+    return b.score - a.score;
+  });
+}
