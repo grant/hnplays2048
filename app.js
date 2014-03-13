@@ -18,13 +18,29 @@ var port = process.env.PORT || 8000;
 server.listen(port);
 console.log("Listening at port: " + port);
 
+// Routes
 app.get('*', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
+// Setup game
+
+var nextUserId = 0;
+var game = require('./private/js/game');
+
 io.sockets.on('connection', function (socket) {
+  socket.userId = ++nextUserId;
   // socket.emit('connected', { hello: 'world' });
-  socket.on('move', function (data) {
+  socket.on('move', function (direction) {
+    // update the game
+    game.move(direction);
+
+    // Send the move with the game state
+    var data = {
+      direction: direction,
+      userId: socket.userId,
+      gameData: game.getGameData()
+    };
     socket.broadcast.emit('move', data);
   });
 });
