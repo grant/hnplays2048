@@ -19,6 +19,10 @@ socket.on('someone connected', function (data) {
   updateUserCount(data);
 });
 
+socket.on('someone disconnected', function (data) {
+  updateUserCount(data);
+});
+
 socket.on('move', function (data) {
   // Add move to input list
   var direction = data.direction;
@@ -50,10 +54,6 @@ socket.on('restart', function (gameData) {
   setHighscores(highscores);
   manager.restart();
   manager.setGameData(gameData);
-});
-
-socket.on('disconnect', function (data) {
-  updateUserCount(data);
 });
 
 // Sets the visual high score list
