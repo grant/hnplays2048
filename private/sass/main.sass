@@ -1,7 +1,7 @@
 @import helpers
 @import fonts/clear-sans.css
 
-$column-width: 200px
+$column-width: 240px
 $field-width: 500px
 $grid-spacing: 15px
 $grid-row-cells: 4
@@ -124,13 +124,17 @@ hr
 
   .highscores, .userInputs
     width: $column-width
+    text-align: center
 
-.userInputs
-  text-align: center
-
+.highscores
   li
     margin-bottom: 10px
-  // .title
+  .score
+    padding-right: 5px
+
+.userInputs
+  li
+    margin-bottom: 10px
   .move
     display: inline-block
     width: 20px

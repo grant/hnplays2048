@@ -22,6 +22,8 @@ console.log("Listening at port: " + port);
 app.get('/api', function (req, res) {
   var data = game.getGameData();
   data.highscores = game.getScores();
+  data.moveCount = moveCount;
+  data.numUsers = io.sockets.clients().length;
   res.send(data);
 });
 app.get('*', function (req, res) {
@@ -31,6 +33,7 @@ app.get('*', function (req, res) {
 // Setup game
 
 var nextUserId = 0;
+var moveCount = 0;
 var game = require('./private/js/game');
 
 io.sockets.on('connection', function (socket) {
@@ -47,6 +50,7 @@ io.sockets.on('connection', function (socket) {
 
   // When someone moves
   socket.on('move', function (direction) {
+    ++moveCount;
     // update the game
     game.move(direction);
 
