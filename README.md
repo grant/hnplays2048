@@ -4,6 +4,7 @@ hnplays2048
 A "Twitch plays pokemon" version of 2048 (https://github.com/gabrielecirulli/2048)
 
 Live version: http://hnplays2048.herokuapp.com
+
 API: http://hnplays2048.herokuapp.com/api
 
 ## Setup
