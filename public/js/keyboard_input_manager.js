@@ -11,18 +11,18 @@ KeyboardInputManager.prototype.on = function (event, callback) {
   this.events[event].push(callback);
 };
 
+// Keep track of the past events (queue)
+var pastEvents = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 KeyboardInputManager.prototype.emit = function (event, data) {
   var callbacks = this.events[event];
 
-  // Don't call callbacks, instead capture and send for multiplayer
+  // Keep track of events
+  pastEvents.push(new Date().getTime());
+  pastEvents.splice(0, pastEvents.length - 10);
 
-  // if (callbacks) {
-  //   callbacks.forEach(function (callback) {
-  //     callback(data);
-  //   });
-  // }
-
-  if (Multiplayer[event]) {
+  // Multiplayer
+  var spamming = pastEvents[pastEvents.length - 1] - pastEvents[0] < 1000;
+  if (Multiplayer[event] && !spamming) {
     Multiplayer[event](data);
   }
 };
