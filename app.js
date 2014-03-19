@@ -32,7 +32,6 @@ app.get('*', function (req, res) {
 });
 
 // Setup game
-
 var nextUserId = 0;
 var moveCount = 0;
 var game = require('./private/js/game');
