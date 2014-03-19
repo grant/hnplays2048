@@ -12,13 +12,13 @@ KeyboardInputManager.prototype.on = function (event, callback) {
 };
 
 // Keep track of the past events (queue)
-var pastEvents = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var pastEvents = [0, 0, 0, 0, 0];
 KeyboardInputManager.prototype.emit = function (event, data) {
   var callbacks = this.events[event];
 
   // Keep track of events
   pastEvents.push(new Date().getTime());
-  pastEvents.splice(0, pastEvents.length - 10);
+  pastEvents.splice(0, pastEvents.length - 5);
 
   // Multiplayer
   var spamming = pastEvents[pastEvents.length - 1] - pastEvents[0] < 1000;
