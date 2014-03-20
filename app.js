@@ -53,7 +53,7 @@ io.sockets.on('connection', function (socket) {
   });
 
   // When someone moves
-  var numMovesPerSecond = 3;
+  var numMovesPerSecond = 2;
   var pastEvents = [];
   socket.on('move', function (direction) {
     // Keep track of events
