@@ -31,6 +31,11 @@ socket.on('vote', function(data) {
    }
 });
 
+socket.on('chat', function(data) {
+
+
+});
+
 socket.on('timer', function(data) {
    var voteElem = document.getElementsByClassName("voteTimerText")[0];
    voteElem.innerHTML = data;

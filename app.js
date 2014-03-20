@@ -36,7 +36,7 @@ var nextUserId = 0;
 var moveCount = 0;
 var game = require('./private/js/game');
 
-var voteTime = 10;
+var voteTime = 5;
 var playersMoved;
 var votes;
 var currentVoteTime;
@@ -119,6 +119,10 @@ io.sockets.on('connection', function (socket) {
 
     io.sockets.emit('vote', votes);
 
+  });
+
+  socket.on('chat', function(message) {
+    io.sockets.emit('chat', {user: socket.userId, msg: message});
   });
 
   socket.on('disconnect', function () {
