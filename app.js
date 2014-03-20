@@ -74,7 +74,7 @@ if (democracy) {
     // END COPIED
 
     votes = [0, 0, 0, 0];
-  }, 5000);
+  }, 1000);
 }
 
 io.sockets.on('connection', function (socket) {
