@@ -45,7 +45,7 @@ if (democracy) {
     for (var i = 1; i < 4; i++) {
       if (votes[i] > votes[direction]) direction = i;
     }
-    if (votes[i] == 0) return;
+    if (votes[direction] == 0) return;
 
     // COPIED FROM BELOW
     ++moveCount;
@@ -73,7 +73,7 @@ if (democracy) {
     // END COPIED
 
     votes = [0, 0, 0, 0];
-  }, 30000);
+  }, 5000);
 }
 
 io.sockets.on('connection', function (socket) {
@@ -139,7 +139,6 @@ io.sockets.on('connection', function (socket) {
         }
       }
     }
-  }
   });
 
   socket.on('disconnect', function () {
