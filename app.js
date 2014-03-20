@@ -38,6 +38,7 @@ var moveCount = 0;
 var game = require('./private/js/game');
 
 var votes = [0, 0, 0, 0]; // for democracy mode
+var ids = [];
 
 if (democracy) {
   setInterval(function() {
@@ -72,6 +73,7 @@ if (democracy) {
     }
     // END COPIED
 
+    ids = [];
     votes = [0, 0, 0, 0];
   }, 5000);
 }
@@ -103,6 +105,13 @@ io.sockets.on('connection', function (socket) {
     var spamming = pastEvents[pastEvents.length - 1] - pastEvents[0] < 1000;
     if (!spamming) {
       if (democracy) {
+        for (i in ids) {
+          if (ids[i] == socket.userId) {
+            return;
+          }
+        }
+
+        ids.push(socket.userId);
         votes[direction]++;
 
         // Send the move with the same old game state
