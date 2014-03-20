@@ -32,9 +32,49 @@ app.get('*', function (req, res) {
 });
 
 // Setup game
+var democracy = true;
 var nextUserId = 0;
 var moveCount = 0;
 var game = require('./private/js/game');
+
+var votes = [0, 0, 0, 0]; // for democracy mode
+
+if (democracy) {
+  setInterval(function() {
+    var direction = 0;
+    for (var i = 1; i < 4; i++) {
+      if (votes[i] > votes[direction]) direction = i;
+    }
+    if (votes[i] == 0) return;
+
+    // COPIED FROM BELOW
+    ++moveCount;
+    // update the game
+    game.move(direction);
+
+    // Send the move with the game state
+    var gameData = game.getGameData();
+    var data = {
+      direction: direction,
+      userId: "Democracy",
+      numUsers: io.sockets.clients().length,
+      gameData: gameData
+    };
+    io.sockets.emit('move', data);
+
+    // Reset the game if it is game over or won
+    if (gameData.over || gameData.won) {
+      game.restart(function () {
+        var data = game.getGameData();
+        data.highscores = game.getHighscores();
+        io.sockets.emit('restart', data);
+      });
+    }
+    // END COPIED
+
+    votes = [0, 0, 0, 0];
+  }, 30000);
+}
 
 io.sockets.on('connection', function (socket) {
   socket.userId = ++nextUserId;
@@ -61,29 +101,45 @@ io.sockets.on('connection', function (socket) {
 
     var spamming = pastEvents[pastEvents.length - 1] - pastEvents[0] < 1000;
     if (!spamming) {
-      ++moveCount;
-      // update the game
-      game.move(direction);
+      if (democracy) {
+        votes[direction]++;
 
-      // Send the move with the game state
-      var gameData = game.getGameData();
-      var data = {
-        direction: direction,
-        userId: socket.userId,
-        numUsers: io.sockets.clients().length,
-        gameData: gameData
-      };
-      io.sockets.emit('move', data);
+        // Send the move with the same old game state
+        var gameData = game.getGameData();
+        var data = {
+          direction: direction,
+          userId: socket.userId,
+          numUsers: io.sockets.clients().length,
+          gameData: gameData
+        };
+        io.sockets.emit('move', data);
 
-      // Reset the game if it is game over or won
-      if (gameData.over || gameData.won) {
-        game.restart(function () {
-          var data = game.getGameData();
-          data.highscores = game.getHighscores();
-          io.sockets.emit('restart', data);
-        });
+      } else {
+        ++moveCount;
+        // update the game
+        game.move(direction);
+
+        // Send the move with the game state
+        var gameData = game.getGameData();
+        var data = {
+          direction: direction,
+          userId: socket.userId,
+          numUsers: io.sockets.clients().length,
+          gameData: gameData
+        };
+        io.sockets.emit('move', data);
+
+        // Reset the game if it is game over or won
+        if (gameData.over || gameData.won) {
+          game.restart(function () {
+            var data = game.getGameData();
+            data.highscores = game.getHighscores();
+            io.sockets.emit('restart', data);
+          });
+        }
       }
     }
+  }
   });
 
   socket.on('disconnect', function () {
