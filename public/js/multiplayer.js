@@ -5,6 +5,8 @@ var userString = document.getElementsByClassName("userString")[0];
 var arrows = ['▲', '▶', '▼', '◀'];
 var MOVE_LIST_CUTOFF = 20;
 
+var democracy = true;
+
 var socket = io.connect();
 var yourUserId;
 socket.on('connected', function (data) {
@@ -50,8 +52,10 @@ socket.on('move', function (data) {
 
   // Set the game state (if we're not in a pause state)
   if (!(manager.won || manager.over)) {
-    var gameData = data.gameData;
-    manager.setGameData(gameData);
+    if (!democracy || userId == "Democracy") {
+      var gameData = data.gameData;
+      manager.setGameData(gameData);
+    }
   }
 });
 
