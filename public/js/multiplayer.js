@@ -24,17 +24,26 @@ socket.on('someone disconnected', function (data) {
   updateUserCount(data);
 });
 
+socket.on('vote', function(data) {
+   for (var dir in data) {
+      var dirElem = document.getElementsByClassName("vote" + dir)[0];
+      dirElem.innerHTML = data[dir];
+   }
+});
+
+socket.on('timer', function(data) {
+   var voteElem = document.getElementsByClassName("voteTimerText")[0];
+   voteElem.innerHTML = data;
+});
+
 socket.on('move', function (data) {
   // Add move to input list
   var direction = data.direction;
-  var userId = data.userId;
+  var numVotes = data.numVotes;
   var moveElement = document.createElement('li');
 
-  var userIdString = 'User ' + userId;
-  if (userId === yourUserId) {
-    userIdString = '<strong>' + userIdString + '</strong>';
-  }
-  moveElement.innerHTML = '<span class="move move-'+direction+'">' + arrows[direction] + '</span>' + userIdString;
+  var numVotesString = numVotes + " vote" + (numVotes == 1 ? '' : 's');
+  moveElement.innerHTML = '<span class="move move-'+direction+'">' + arrows[direction] + '</span>' + numVotesString;
   moveList.insertBefore(moveElement,moveList.firstChild);
 
   // Remove input list item if there are too many

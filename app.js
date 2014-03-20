@@ -36,6 +36,60 @@ var nextUserId = 0;
 var moveCount = 0;
 var game = require('./private/js/game');
 
+var voteTime = 10;
+var playersMoved;
+var votes;
+var currentVoteTime;
+function resetVotes() {
+  playersMoved = {};
+  votes = {0: 0, 1: 0, 2: 0, 3: 0};
+  currentVoteTime = voteTime;
+}
+
+resetVotes();
+setInterval(function() {
+    io.sockets.emit('timer', currentVoteTime + " second" + (currentVoteTime == 1 ? "" : "s"));
+    currentVoteTime--;
+    if (currentVoteTime >= 0)
+        return;
+
+    var winningCount = 0;
+    var winningDir = null;
+    for (var dir in votes) {
+        if (votes[dir] > 0 && (winningDir == null || winningCount == 0)) {
+            winningDir = dir;
+            winningCount = votes[dir];
+        }
+    }
+    if (winningDir) {
+      ++moveCount;
+      game.move(winningDir);
+
+      // Send the move with the game state
+      var gameData = game.getGameData();
+      var data = {
+        direction: winningDir,
+        numVotes: winningCount,
+        numUsers: io.sockets.clients().length,
+        gameData: gameData
+      };
+      io.sockets.emit('move', data);
+
+      // Reset the game if it is game over or won
+      if (gameData.over || gameData.won) {
+        game.restart(function () {
+          var data = game.getGameData();
+          data.highscores = game.getHighscores();
+          io.sockets.emit('restart', data);
+        });
+      }
+
+    }
+    resetVotes();
+    io.sockets.emit('vote', votes);
+},
+1000);
+
 io.sockets.on('connection', function (socket) {
   socket.userId = ++nextUserId;
 
@@ -52,39 +106,19 @@ io.sockets.on('connection', function (socket) {
     numUsers: io.sockets.clients().length
   });
 
-  // When someone moves
-  var numMovesPerSecond = 3;
-  var pastEvents = [];
+  socket.emit('vote', votes);
+
+
   socket.on('move', function (direction) {
     // Keep track of events
-    pastEvents.push(new Date().getTime());
-    pastEvents.splice(0, pastEvents.length - numMovesPerSecond);
-
-    var spamming = pastEvents[pastEvents.length - 1] - pastEvents[0] < 1000;
-    if (!spamming) {
-      ++moveCount;
-      // update the game
-      game.move(direction);
-
-      // Send the move with the game state
-      var gameData = game.getGameData();
-      var data = {
-        direction: direction,
-        userId: socket.userId,
-        numUsers: io.sockets.clients().length,
-        gameData: gameData
-      };
-      io.sockets.emit('move', data);
-
-      // Reset the game if it is game over or won
-      if (gameData.over || gameData.won) {
-        game.restart(function () {
-          var data = game.getGameData();
-          data.highscores = game.getHighscores();
-          io.sockets.emit('restart', data);
-        });
-      }
+    if (playersMoved[socket.userId]) {
+        return;
     }
+    playersMoved[socket.userId] = true;
+    votes[direction] = votes[direction] ? votes[direction] + 1 : 1;
+
+    io.sockets.emit('vote', votes);
+
   });
 
   socket.on('disconnect', function () {
