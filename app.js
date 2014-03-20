@@ -27,6 +27,7 @@ app.get('/api', function (req, res) {
   data.totalNumUsers = nextUserId; // Visitor count
   res.send(data);
 });
+
 app.get('*', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
