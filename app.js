@@ -53,11 +53,12 @@ io.sockets.on('connection', function (socket) {
   });
 
   // When someone moves
-  var pastEvents = [0, 0, 0, 0, 0];
+  var numMovesPerSecond = 3;
+  var pastEvents = [];
   socket.on('move', function (direction) {
     // Keep track of events
     pastEvents.push(new Date().getTime());
-    pastEvents.splice(0, pastEvents.length - 5);
+    pastEvents.splice(0, pastEvents.length - numMovesPerSecond);
 
     var spamming = pastEvents[pastEvents.length - 1] - pastEvents[0] < 1000;
     if (!spamming) {
