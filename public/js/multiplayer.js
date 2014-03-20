@@ -6,8 +6,9 @@ var arrows = ['▲', '▶', '▼', '◀'];
 var MOVE_LIST_CUTOFF = 20;
 
 var socket = io.connect();
+var yourUserId;
 socket.on('connected', function (data) {
-  // var userId = data.userId;
+  yourUserId = data.userId;
   var gameData = data.gameData;
   var highscores = data.highscores;
   setHighscores(highscores);
@@ -28,7 +29,12 @@ socket.on('move', function (data) {
   var direction = data.direction;
   var userId = data.userId;
   var moveElement = document.createElement('li');
-  moveElement.innerHTML = '<span class="move move-'+direction+'">' + arrows[direction] + '</span>User ' + userId;
+
+  var userIdString = 'User ' + userId;
+  if (userId === yourUserId) {
+    userIdString = '<strong>' + userIdString + '</strong>';
+  }
+  moveElement.innerHTML = '<span class="move move-'+direction+'">' + arrows[direction] + '</span>' + userIdString;
   moveList.insertBefore(moveElement,moveList.firstChild);
 
   // Remove input list item if there are too many
