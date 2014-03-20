@@ -34,6 +34,25 @@ ul, ol
   list-style-type: none
   padding: 0
 
+p
+  margin: 0
+  line-height: 1.65
+
+a
+  color: $text-color
+  font-weight: bold
+  text-decoration: underline
+  cursor: pointer
+
+strong
+  &.important
+    text-transform: uppercase
+
+hr
+  border: none
+  border-bottom: 1px solid lighten($text-color, 40%)
+  margin: 10px 0
+
 .heading:after
   content: ""
   display: block
@@ -67,7 +86,7 @@ h1.title
   font-weight: bold
   border-radius: 3px
   color: white
-  margin-top: 8px
+  margin-top: 0
   &:after
     position: absolute
     width: 100%
@@ -90,27 +109,6 @@ h1.title
     z-index: 100
     +animation(move-up 600ms ease-in)
     +animation-fill-mode(both)
-
-p
-  margin-top: 0
-  margin-bottom: 10px
-  line-height: 1.65
-
-a
-  color: $text-color
-  font-weight: bold
-  text-decoration: underline
-  cursor: pointer
-
-strong
-  &.important
-    text-transform: uppercase
-
-hr
-  border: none
-  border-bottom: 1px solid lighten($text-color, 40%)
-  margin-top: 20px
-  margin-bottom: 30px
 
 .container
   width: $field-width + 2 * $column-width
@@ -341,10 +339,15 @@ hr
   margin-bottom: 0
 
 .game-explanation
-  margin-top: 30px
+  margin-top: 20px
 
 .social
   text-align: center
+
+.links
+  text-align: center
+  li
+    margin-bottom: 5px
 
 +smaller(480px)
   // Redefine variables for smaller screens
