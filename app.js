@@ -38,7 +38,9 @@ var nextUserId = 0;
 var moveCount = 0;
 var game = require('./private/js/game');
 
+var voted = false;
 var votes = [0, 0, 0, 0]; // for democracy mode
+var ids = [];
 
 if (democracy) {
   setInterval(function() {
@@ -73,7 +75,9 @@ if (democracy) {
     }
     // END COPIED
 
+    ids = [];
     votes = [0, 0, 0, 0];
+    voted = false;
   }, 1000);
 }
 
@@ -96,18 +100,20 @@ io.sockets.on('connection', function (socket) {
   // When someone moves
   socket.on('move', function (direction) {
     if (democracy) {
-      votes[direction]++;
+      if (!voted) {
+        voted = true;
+        votes[direction]++;
 
-      // Send the move with the same old game state
-      var gameData = game.getGameData();
-      var data = {
-        direction: direction,
-        userId: socket.userId,
-        numUsers: io.sockets.clients().length,
-        gameData: gameData
-      };
-      io.sockets.emit('move', data);
-
+        // Send the move with the same old game state
+        var gameData = game.getGameData();
+        var data = {
+          direction: direction,
+          userId: socket.userId,
+          numUsers: io.sockets.clients().length,
+          gameData: gameData
+        };
+        io.sockets.emit('move', data);
+      }
     } else {
       ++moveCount;
       // update the game
