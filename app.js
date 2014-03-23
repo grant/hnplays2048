@@ -98,9 +98,20 @@ io.sockets.on('connection', function (socket) {
   });
 
   // When someone moves
+  var numMovesPerSecond = 2;
+  var pastEvents = [];
+  for (var i = 0; i < numMovesPerSecond; i++) {
+    pastEvents.push(0);
+  }
   socket.on('move', function (direction) {
     if (democracy) {
-      if (!voted) {
+      // Keep track of events
+      pastEvents.push(new Date().getTime());
+      pastEvents.splice(0, pastEvents.length - numMovesPerSecond);
+
+      // Multiplayer
+      var spamming = pastEvents[pastEvents.length - 1] - pastEvents[0] < 1000;
+      if (!voted && !spamming) {
         voted = true;
         votes[direction]++;
 

@@ -11,10 +11,22 @@ KeyboardInputManager.prototype.on = function (event, callback) {
   this.events[event].push(callback);
 };
 
+// Keep track of the past events (queue)
+var numMovesPerSecond = 2;
+var pastEvents = [];
+for (var i = 0; i < numMovesPerSecond; i++) {
+  pastEvents.push(0);
+}
 KeyboardInputManager.prototype.emit = function (event, data) {
   var callbacks = this.events[event];
 
-  if (Multiplayer[event]) {
+  // Keep track of events
+  pastEvents.push(new Date().getTime());
+  pastEvents.splice(0, pastEvents.length - numMovesPerSecond);
+
+  // Multiplayer
+  var spamming = pastEvents[pastEvents.length - 1] - pastEvents[0] < 1000;
+  if (Multiplayer[event] && !spamming) {
     Multiplayer[event](data);
   }
 };
