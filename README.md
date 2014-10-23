@@ -24,7 +24,6 @@ Publishing:
 git clone git@github.com:grant/hnplays2048.git
 npm install
 heroku create
-heroku labs:enable websockets
 git push heroku master
 heroku open
 ```
